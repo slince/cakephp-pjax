@@ -1,0 +1,40 @@
+{
+    "name": "slince/cakephp-pjax",
+    "description": "A pjax middleware for CakePHP 3",
+    "keywords": [
+        "cakephp",
+        "cakephp-pjax",
+        "pjax"
+    ],
+    "homepage": "https://github.com/slince/cakephp-pjax",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taosikai",
+            "email": "taosikai@yeah.net",
+            "homepage": "https://www.phpdish.com"
+        }
+    ],
+    "require": {
+        "php" : ">=5.6.0",
+        "cakephp/cakephp": "^3.0",
+        "symfony/dom-crawler": "^2.7|^3.0",
+        "symfony/css-selector": "^2.7|^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Slince\\Pjax\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Slince\\Pjax\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
