@@ -12,11 +12,17 @@ namespace Slince\Pjax\Middleware;
 
 use Cake\Network\Response;
 use Closure;
+use Slince\Pjax\Helper\PjaxHelper;
 use Symfony\Component\DomCrawler\Crawler;
 use Cake\Network\Request;
 
 class PjaxMiddleware
 {
+    /**
+     * @var PjaxHelper
+     */
+    protected $helper;
+
     /**
      * The DomCrawler instance.
      *
@@ -24,23 +30,29 @@ class PjaxMiddleware
      */
     protected $crawler;
 
+    public function __construct()
+    {
+        $this->helper = new PjaxHelper();
+    }
+
     /**
      * Handle an incoming request.
      *
      * @param Request $request
+     * @param Response $response
      * @param \Closure                 $next
      *
      * @return mixed
      */
-    public function __invoke(Request $request, Closure $next)
+    public function __invoke($request, $response, $next)
     {
-        $response = $next($request);
+        $response = $next($request, $response);
 
-        if (!$request->pjax() || $response->isRedirection()) {
+        if (!$this->helper->isPjaxRequest($request) || $response->isRedirection()) {
             return $response;
         }
 
-        $this->filterResponse($response, $request->header('X-PJAX-Container'))
+        $this->filterResponse($response, $request->getHeaderLine('X-PJAX-Container'))
             ->setUriHeader($response, $request)
             ->setVersionHeader($response, $request);
 

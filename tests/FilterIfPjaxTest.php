@@ -1,11 +1,10 @@
 <?php
 
-namespace Spatie\Pjax\Test;
+namespace Slince\Pjax\Test;
 
-use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
-use Spatie\Pjax\Middleware\PjaxMiddleware;
-use Symfony\Component\HttpFoundation\Response;
+use Cake\Network\Request;
+use Slince\Pjax\Middleware\PjaxMiddleware;
 
 class FilterIfPjaxTest extends TestCase
 {
