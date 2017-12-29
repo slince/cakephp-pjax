@@ -1,6 +1,7 @@
 {
     "name": "slince/cakephp-pjax",
     "description": "A pjax middleware for CakePHP 3",
+    "type":"cakephp-plugin",
     "keywords": [
         "cakephp",
         "cakephp-pjax",
