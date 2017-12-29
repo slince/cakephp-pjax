@@ -3,3 +3,4 @@ composer.lock
 docs
 vendor
 .idea/*
+.php_cs.cache

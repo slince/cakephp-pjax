@@ -11,7 +11,6 @@
 namespace Slince\Pjax\Middleware;
 
 use Cake\Network\Response;
-use Closure;
 use Slince\Pjax\Helper\PjaxHelper;
 use Symfony\Component\DomCrawler\Crawler;
 use Cake\Network\Request;
@@ -32,49 +31,61 @@ class PjaxMiddleware
 
     public function __construct()
     {
-        $this->helper = new PjaxHelper();
+        $this->helper = PjaxHelper::instance();
     }
 
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param \Closure                 $next
+     * @param \Closure $next
      *
-     * @return mixed
+     * @return Response
      */
     public function __invoke($request, $response, $next)
     {
+        if ($isPjax = $this->helper->isPjaxRequest($request)) {
+            $request = $this->setRequestAttribute($request);
+        }
+
         $response = $next($request, $response);
 
-        if (!$this->helper->isPjaxRequest($request) || $response->isRedirection()) {
+        if (!$isPjax || $this->isRedirectionResponse($response)) {
             return $response;
         }
 
-        $this->filterResponse($response, $request->getHeaderLine('X-PJAX-Container'))
-            ->setUriHeader($response, $request)
-            ->setVersionHeader($response, $request);
+        $response = $this->filterResponse($response, $this->helper->getContainer($request));
+        $response = $this->setUriHeader($response, $request);
+        $response = $this->setVersionHeader($response);
 
         return $response;
     }
 
     /**
      * @param Response $response
-     * @param string                    $container
+     * @param string   $container
      *
-     * @return $this
+     * @return Response
      */
     protected function filterResponse(Response $response, $container)
     {
-        $crawler = $this->getCrawler($response);
+        $crawler = $this->getCrawler($response->getBody());
 
-        $response->setContent(
-            $this->makeTitle($crawler).
-            $this->fetchContainer($crawler, $container)
+        return $response->withStringBody(
+            $this->makeTitle($crawler)
+            .$this->fetchContainer($crawler, $container)
         );
+    }
 
-        return $this;
+    /**
+     * @param Request $request
+     *
+     * @return Request
+     */
+    protected function setRequestAttribute(Request $request)
+    {
+        return $request->withAttribute('IS_PJAX', true);
     }
 
     /**
@@ -87,7 +98,7 @@ class PjaxMiddleware
         $pageTitle = $crawler->filter('head > title');
 
         if (!$pageTitle->count()) {
-            return;
+            return null;
         }
 
         return "<title>{$pageTitle->html()}</title>";
@@ -104,7 +115,7 @@ class PjaxMiddleware
         $content = $crawler->filter($container);
 
         if (!$content->count()) {
-            abort(422);
+            return null;
         }
 
         return $content->html();
@@ -114,60 +125,53 @@ class PjaxMiddleware
      * @param Response $response
      * @param Request  $request
      *
-     * @return $this
+     * @return Response
      */
     protected function setUriHeader(Response $response, Request $request)
     {
-        $response->header('X-PJAX-URL', $request->getRequestUri());
-
-        return $this;
+        return $response->withHeader('X-PJAX-URL', (string) $request->getUri());
     }
 
     /**
      * @param Response $response
-     * @param Request  $request
      *
-     * @return $this
+     * @return Response
      */
-    protected function setVersionHeader(Response $response, Request $request)
+    protected function setVersionHeader(Response $response)
     {
-        $crawler = $this->getCrawler($this->createResponseWithLowerCaseContent($response));
+        $crawler = $this->getCrawler(strtolower($response->getBody()));
         $node = $crawler->filter('head > meta[http-equiv="x-pjax-version"]');
 
         if ($node->count()) {
-            $response->header('x-pjax-version', $node->attr('content'));
+            $response = $response->withHeader('x-pjax-version', $node->attr('content'));
         }
 
-        return $this;
+        return $response;
+    }
+
+    /**
+     * @param Response $response
+     *
+     * @return bool
+     */
+    protected function isRedirectionResponse(Response $response)
+    {
+        return $response->getStatusCode() >= 300 && $response->getStatusCode() < 400;
     }
 
     /**
      * Get the DomCrawler instance.
      *
-     * @param Response $response
+     * @param string $body
      *
      * @return \Symfony\Component\DomCrawler\Crawler
      */
-    protected function getCrawler(Response $response)
+    protected function getCrawler($body)
     {
         if ($this->crawler) {
             return $this->crawler;
         }
 
-        return $this->crawler = new Crawler($response->getContent());
-    }
-
-    /**
-     * Make the content of the given response lowercase.
-     *
-     * @param Response $response
-     *
-     * @return Response
-     */
-    protected function createResponseWithLowerCaseContent(Response $response)
-    {
-        $lowercaseContent = strtolower($response->getContent());
-
-        return Response::create($lowercaseContent);
+        return $this->crawler = new Crawler((string) $body);
     }
 }

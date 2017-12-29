@@ -15,24 +15,45 @@ use Cake\Network\Request;
 final class PjaxHelper
 {
     /**
-     * Checks whether the request is pjax
+     * @var static
+     */
+    private static $instance;
+
+    /**
+     * Checks whether the request is pjax.
      *
      * @param Request $request
-     * @return boolean
+     *
+     * @return bool
      */
     public function isPjaxRequest(Request $request)
     {
-        return (bool)$request->getHeaderLine('X-PJAX');
+        return (bool) $request->getHeaderLine('X-PJAX');
     }
 
     /**
-     * Get container
+     * Get container.
      *
      * @param Request $request
+     *
      * @return string
      */
     public function getContainer(Request $request)
     {
-        return $request->headers->get('X-PJAX-Container');
+        return $request->getHeaderLine('X-PJAX-Container');
+    }
+
+    /**
+     * Creates the instance.
+     *
+     * @return PjaxHelper
+     */
+    public static function instance()
+    {
+        if (static::$instance) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
     }
 }

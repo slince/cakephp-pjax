@@ -20,29 +20,19 @@ You can install the package via composer:
 $ composer require slince/cakephp-pjax
 ```
 
-Next you must add the `\Spatie\Pjax\Middleware\FilterIfPjax`-middleware to the kernel.
+## Load Plugin
+
+Add the following to your config/bootstrap.php to load the plugin.
+
 ```php
-// app/Http/Kernel.php
-
-...
-protected $middleware = [
-    ...
-    \Spatie\Pjax\Middleware\FilterIfPjax::class,
-];
+Plugin::load('Slince/Pjax', [
+    'bootstrap' => true,
+]);
 ```
-
 
 ## Usage
 
 The provided middleware provides [the behaviour that the pjax plugin expects of the server](https://github.com/defunkt/jquery-pjax#server-side):
-
-> An X-PJAX request header is set to differentiate a pjax request from normal XHR requests. 
-> In this case, if the request is pjax, we skip the layout html and just render the inner
-> contents of the container.
-
-## Security
-
-If you discover any security related issues, please email taosikai@yeah.net instead of using the issue tracker.
 
 ## License
 
