@@ -6,10 +6,10 @@ use Slince\Pjax\Middleware\PjaxMiddleware;
 use Slince\Pjax\Helper\PjaxHelper;
 
 /**
- * Detctor
+ * Detector
  */
 ServerRequest::addDetector('pjax', function ($request) {
-    PjaxHelper::instance()->isPjaxRequest($request);
+    return PjaxHelper::instance()->isPjaxRequest($request);
 });
 
 /**

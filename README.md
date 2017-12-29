@@ -32,6 +32,18 @@ Plugin::load('Slince/Pjax', [
 
 The provided middleware provides [the behaviour that the pjax plugin expects of the server](https://github.com/defunkt/jquery-pjax#server-side):
 
+Checks pjax request:
+
+```php
+class PagesController
+{
+    public function index()
+    {
+        debug($this->request->is('pjax')); //true
+    }
+}
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
