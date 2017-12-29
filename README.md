@@ -1,11 +1,11 @@
-# A pjax middleware for CakePHP 3
+# Pjax plugin for CakePHP
 
 [![Build Status](https://img.shields.io/travis/slince/cakephp-pjax/master.svg?style=flat-square)](https://travis-ci.org/slince/cakephp-pjax)
 [![Coverage Status](https://img.shields.io/codecov/c/github/slince/cakephp-pjax.svg?style=flat-square)](https://codecov.io/github/slince/cakephp-pjax)
 [![Latest Stable Version](https://img.shields.io/packagist/v/slince/cakephp-pjax.svg?style=flat-square&label=stable)](https://packagist.org/packages/slince/cakephp-pjax)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/slince/cakephp-pjax.svg?style=flat-square)](https://scrutinizer-ci.com/g/slince/cakephp-pjax/?branch=master)
 
-[Pjax](https://github.com/defunkt/jquery-pjax) is a jQuery plugin that leverages ajax to 
+This plugin for version 3 the CakePHP Framework. [Pjax](https://github.com/defunkt/jquery-pjax) is a jQuery plugin that leverages ajax to 
 speed up the loading time of your pages. It works by only fetching specific html fragments
 from the server, and client-side updating only happens on certain parts of the page.
 
