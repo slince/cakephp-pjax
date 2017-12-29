@@ -1,11 +1,9 @@
 # A pjax middleware for CakePHP 3
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-pjax.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-pjax)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/spatie/laravel-pjax/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-pjax)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/89249e40-536c-4b1b-b1fb-f8b807b2b51d.svg?style=flat-square)](https://insight.sensiolabs.com/projects/89249e40-536c-4b1b-b1fb-f8b807b2b51d)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-pjax.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-pjax)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-pjax.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-pjax)
+[![Build Status](https://img.shields.io/travis/slince/cakephp-pjax/master.svg?style=flat-square)](https://travis-ci.org/slince/cakephp-pjax)
+[![Coverage Status](https://img.shields.io/codecov/c/github/slince/cakephp-pjax.svg?style=flat-square)](https://codecov.io/github/slince/cakephp-pjax)
+[![Latest Stable Version](https://img.shields.io/packagist/v/slince/cakephp-pjax.svg?style=flat-square&label=stable)](https://packagist.org/packages/slince/cakephp-pjax)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/slince/cakephp-pjax.svg?style=flat-square)](https://scrutinizer-ci.com/g/slince/cakephp-pjax/?branch=master)
 
 [Pjax](https://github.com/defunkt/jquery-pjax) is a jQuery plugin that leverages ajax to 
 speed up the loading time of your pages. It works by only fetching specific html fragments
